@@ -1,36 +1,45 @@
 package com.challenge.goku_e_commerce.entities;
 
+import java.util.List;
+
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import com.challenge.goku_e_commerce.DTOs.UserDTO;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity(name = "users")
+@Table(name = "users")
 @Getter
 @Setter
+@Document(collection = "table_users")
 @AllArgsConstructor
 @NoArgsConstructor
-@jakarta.persistence.Entity
-@Table(name = "users")
+@EqualsAndHashCode(of = "id")
+
 public class User {
     @Id
     private String id;
-    private String userName;
+    private String username;
     private String password;
     private String email;
     
-    @OneToOne
-    private Address address; 
+    @OneToMany(mappedBy = "user")
+    private List<Address> addresses;
 
     public User(UserDTO data, String encodedPassword) {
-        this.address = data.address();
+        this.addresses = data.addresses();
         this.email = data.email();
-        this.id = data.id();
         this.password = encodedPassword;
-        this.userName = data.username();
+        this.username = data.username();
     }
 }

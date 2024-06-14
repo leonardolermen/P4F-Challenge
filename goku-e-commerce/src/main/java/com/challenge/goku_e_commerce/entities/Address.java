@@ -3,6 +3,7 @@ package com.challenge.goku_e_commerce.entities;
 import com.challenge.goku_e_commerce.DTOs.AddressDTO;
 
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,9 @@ public class Address {
     private String city;
     private String state;
     private String cep;
+
+    @ManyToOne
+    private User user;
 
     public Address(AddressDTO data) {
         this.cep = data.cep();
