@@ -24,6 +24,6 @@ public class UserService {
     public User createUser(UserDTO data){
         String encodedPassword = this.passwordService.encode(data.password());
         User newUser = new User(data, encodedPassword);
-        return newUser;
+        return this.userRepository.save(newUser);
     }
 }

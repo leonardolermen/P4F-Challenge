@@ -9,5 +9,5 @@ import com.challenge.goku_e_commerce.entities.Address;
 
 @Repository
 public interface AddressRepository extends JpaRepository<Address, String> {
-    Optional<Address>findByCep(String cep);
+    Address findByCep(String cep);
 }
