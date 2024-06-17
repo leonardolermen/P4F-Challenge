@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -26,14 +27,15 @@ import lombok.Setter;
 public class Address {
     @Id
     private String id;
-    private String street;
-    private String city;
-    private String state;
-    private String cep;
 
-    
-    @JsonIgnore 
-    
+    @NotNull
+    private String street;
+    @NotNull
+    private String city;
+    @NotNull
+    private String state;
+    @NotNull
+    private String cep;    
 
     public Address(AddressDTO data) {
         this.cep = data.cep();

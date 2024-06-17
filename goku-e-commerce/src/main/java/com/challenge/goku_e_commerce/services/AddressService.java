@@ -32,4 +32,24 @@ public class AddressService {
         return Optional.ofNullable(addressRepository.findByCep(cep))
                 .orElseThrow(() -> new EntityNotFoundException("Address not found with CEP: " + cep));
     }
+
+    public Address updateAddress(String addressId, AddressDTO data) {
+        Address existingAddress = addressRepository.findById(addressId)
+                .orElseThrow(() -> new EntityNotFoundException("Address not found with id: " + addressId));
+
+        existingAddress.setStreet(data.street());
+        existingAddress.setCity(data.city());
+        existingAddress.setState(data.state());
+        existingAddress.setCep(data.cep());
+
+        return addressRepository.save(existingAddress);
+    }
+
+    public void deleteById(String id){
+        if(!addressRepository.existsById(id)){
+            throw new EntityNotFoundException(id);
+        }
+        addressRepository.deleteById(id);
+    }
+
 }
