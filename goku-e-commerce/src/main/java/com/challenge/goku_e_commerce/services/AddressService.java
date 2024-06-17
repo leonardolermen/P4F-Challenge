@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.challenge.goku_e_commerce.DTOs.AddressDTO;
@@ -18,6 +19,7 @@ public class AddressService {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Cacheable(value = "addresses")
     public List<Address> findAll(){
        return this.addressRepository.findAll();
     }
@@ -27,7 +29,7 @@ public class AddressService {
         return this.addressRepository.save(newAddress);
     }
 
-
+    @Cacheable(value = "addresses", key = "#cep")
     public Address findByCep(String cep) {
         return Optional.ofNullable(addressRepository.findByCep(cep))
                 .orElseThrow(() -> new EntityNotFoundException("Address not found with CEP: " + cep));
