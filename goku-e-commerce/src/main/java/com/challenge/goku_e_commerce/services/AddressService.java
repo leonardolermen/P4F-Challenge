@@ -2,6 +2,7 @@ package com.challenge.goku_e_commerce.services;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.challenge.goku_e_commerce.DTOs.AddressDTO;
 import com.challenge.goku_e_commerce.entities.Address;
 import com.challenge.goku_e_commerce.repositories.AddressRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class AddressService {
@@ -24,8 +27,9 @@ public class AddressService {
         return this.addressRepository.save(newAddress);
     }
 
-    public Address findByCep(String cep){
-      Address address =  this.addressRepository.findByCep(cep);
-      return address;
+
+    public Address findByCep(String cep) {
+        return Optional.ofNullable(addressRepository.findByCep(cep))
+                .orElseThrow(() -> new EntityNotFoundException("Address not found with CEP: " + cep));
     }
 }
