@@ -46,7 +46,7 @@ public class AddressRepositoryTest {
 
     @Test
     void testfindByCep(){
-        String cep = "12345-678";
+        String cep = "12345678";
         Address address = new Address("123", "street", "city", "state", cep);
         when(addressRepository.findByCep(cep)).thenReturn(address);
 
@@ -59,7 +59,7 @@ public class AddressRepositoryTest {
     @Test
     void testFindByCepNotFound() {
         // Arrange
-        String cep = "12345-678";
+        String cep = "12345678";
         when(addressRepository.findByCep(cep)).thenReturn(null);
 
         // Act

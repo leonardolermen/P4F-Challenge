@@ -28,6 +28,9 @@ public class AddressServiceTest {
     @Mock
     private AddressRepository addressRepository;
 
+    @Mock
+    private ViaCepService viaCepService;
+
     @InjectMocks
     private AddressService addressService;
 
@@ -49,7 +52,7 @@ public class AddressServiceTest {
     @Test
     void testCreateAddress() {
         // Given
-        AddressDTO data = new AddressDTO("street", "city", "state", "cep");
+        AddressDTO data = new AddressDTO("Barueri", "SP", "06454080", "Alameda Itapecuru");
         Address newAddress = new Address(data);
         when(addressRepository.save(any())).thenReturn(newAddress);
 
