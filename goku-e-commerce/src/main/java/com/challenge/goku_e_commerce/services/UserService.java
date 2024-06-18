@@ -67,7 +67,7 @@ public class UserService {
         userRepository.save(existingUser);
     }
 
-    @CacheEvict(value = "users", key = "#userId")
+    @CacheEvict(value = "users", allEntries = true)
     public String addUserAddress(String userId, String addresCep){
         User existingUser = userRepository.findById(userId)
         .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));

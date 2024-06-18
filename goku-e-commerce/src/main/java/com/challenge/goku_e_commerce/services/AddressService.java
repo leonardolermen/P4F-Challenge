@@ -60,7 +60,7 @@ public class AddressService {
         return existingAddress;
     }
 
-    @CacheEvict(value = "addresses", key = "#addressId")
+    @CacheEvict(value = "addresses", allEntries = true)
     public void deleteById(String id) {
         if (!addressRepository.existsById(id)) {
             throw new EntityNotFoundException(id);
