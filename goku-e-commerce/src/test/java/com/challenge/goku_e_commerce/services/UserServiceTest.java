@@ -115,7 +115,6 @@ public class UserServiceTest {
         assertThrows(EntityNotFoundException.class, () -> userService.deleteUser(userId));
     }
     
-    // Exemplo de teste para FindByLogin
     @Test
     void testFindByLogin() {
         // Given

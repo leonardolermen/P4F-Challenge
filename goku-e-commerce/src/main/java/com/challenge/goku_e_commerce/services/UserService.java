@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +52,7 @@ public class UserService {
         this.userRepository.deleteById(id);
     }
     
-    @CacheEvict(value = "users", key = "#userId")
+    @CachePut(value = "users", key = "#userId")
     public void updateUser(String userId, UserDTO data) {
         User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));

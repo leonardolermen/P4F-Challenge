@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -45,7 +46,7 @@ public class AddressService {
                 .orElseThrow(() -> new EntityNotFoundException("Address not found with CEP: " + cep));
     }
 
-    @CacheEvict(value = "addresses", key = "#addressId")
+    @CachePut(value = "addresses", key = "#addressId")
     public Address updateAddress(String addressId, AddressDTO data) {
         Address existingAddress = addressRepository.findById(addressId)
                 .orElseThrow(() -> new EntityNotFoundException("Address not found with id: " + addressId));
