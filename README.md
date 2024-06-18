@@ -16,6 +16,7 @@ Implementar uma página de administração com funcionalidade de login para usu�
 # Requisitos Técnicos:
 
 Desenvolver serviços que possam atender tanto à plataforma web quanto às plataformas móveis, para futuramente expandir o sistema
+
 Implementar uma estrutura de cache para garantir o desempenho do sistema.
 
 Integrar uma solução de segurança para prevenir acesso não autorizado a informações sensíveis
@@ -66,8 +67,8 @@ Utilize como exemplo para teste
 }
 
 {
-"cep": "01000000"
+"cep": "06454080"
 }
 ```
-
+Utilize um CEP com essa formatação para cadastro e consulta.
 
