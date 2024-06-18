@@ -63,7 +63,6 @@ Utilize como exemplo para teste
  "username": "user",
  "login": "user@example.com",
  "password": "password",
- "userRole": "USER"
 }
 
 {
