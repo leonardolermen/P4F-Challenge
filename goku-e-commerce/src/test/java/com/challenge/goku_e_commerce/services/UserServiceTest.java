@@ -2,9 +2,7 @@ package com.challenge.goku_e_commerce.services;
 
 
 import com.challenge.goku_e_commerce.dtos.UserDTO;
-import com.challenge.goku_e_commerce.entities.Address;
 import com.challenge.goku_e_commerce.entities.User;
-import com.challenge.goku_e_commerce.enums.UserRole;
 import com.challenge.goku_e_commerce.repositories.UserRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -65,7 +63,7 @@ public class UserServiceTest {
     @Test
     void testCreateUser() {
         // Given
-        UserDTO userDTO = new UserDTO("test@example.com", "password","testUser", UserRole.USER);
+        UserDTO userDTO = new UserDTO("test@example.com", "password","testUser");
     
         when(passwordService.encode(any())).thenReturn("encodedPassword");
         when(userRepository.existsById(userDTO.login())).thenReturn(false);
@@ -85,7 +83,7 @@ public class UserServiceTest {
         // Given
         String login = ("existing@example.com");
 
-        UserDTO userDTO = new UserDTO(login, login, login, null);
+        UserDTO userDTO = new UserDTO(login, login, login);
 
 
         when(userRepository.existsById(userDTO.login())).thenReturn(true);

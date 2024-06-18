@@ -59,7 +59,7 @@ public class User implements UserDetails {
         this.login = data.login();
         this.password = encodedPassword;
         this.username = data.username();
-        this.userRole = data.userRole();
+        this.userRole = UserRole.USER;
         this.addresses = new ArrayList<>();
     }
 
