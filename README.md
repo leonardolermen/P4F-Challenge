@@ -66,10 +66,8 @@ Utilize como exemplo para teste
 }
 
 {
-"street": "Rua das Flores",
-"city": "São Paulo",
-"state": "SP",
-"cep": "01000-000"
+"cep": "01000000"
 }
 ```
+
 
