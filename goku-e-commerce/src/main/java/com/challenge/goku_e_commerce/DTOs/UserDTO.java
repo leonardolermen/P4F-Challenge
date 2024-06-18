@@ -1,7 +1,7 @@
-package com.challenge.goku_e_commerce.DTOs;
+package com.challenge.goku_e_commerce.dtos;
 
 import com.challenge.goku_e_commerce.enums.UserRole;
 
-public record UserDTO(String id, String username, String login, String password, UserRole userRole) {
+public record UserDTO(String username, String login, String password, UserRole userRole) {
     
 }

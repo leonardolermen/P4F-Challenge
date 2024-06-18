@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.challenge.goku_e_commerce.DTOs.AddAdressDTO;
-import com.challenge.goku_e_commerce.DTOs.UserDTO;
+import com.challenge.goku_e_commerce.dtos.AddAdressDTO;
+import com.challenge.goku_e_commerce.dtos.UserDTO;
 import com.challenge.goku_e_commerce.entities.User;
 import com.challenge.goku_e_commerce.exceptions.ResourceNotFoundException;
 import com.challenge.goku_e_commerce.services.UserService;

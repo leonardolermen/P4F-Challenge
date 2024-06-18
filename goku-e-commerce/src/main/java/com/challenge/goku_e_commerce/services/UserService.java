@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.challenge.goku_e_commerce.DTOs.UserDTO;
+import com.challenge.goku_e_commerce.dtos.UserDTO;
 import com.challenge.goku_e_commerce.entities.Address;
 import com.challenge.goku_e_commerce.entities.User;
 import com.challenge.goku_e_commerce.repositories.UserRepository;
@@ -37,7 +37,8 @@ public class UserService {
         }
         String encodedPassword = this.passwordService.encode(data.password());
         User newUser = new User(data, encodedPassword);
-        return this.userRepository.save(newUser);
+        this.userRepository.save(newUser);
+        return newUser;
     }
 
     public void deleteUser(String id) {

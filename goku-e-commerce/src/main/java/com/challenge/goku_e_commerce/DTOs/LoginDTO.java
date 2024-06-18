@@ -1,4 +1,4 @@
-package com.challenge.goku_e_commerce.DTOs;
+package com.challenge.goku_e_commerce.dtos;
 
 import com.challenge.goku_e_commerce.enums.UserRole;
 

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.challenge.goku_e_commerce.DTOs.JwtDTO;
-import com.challenge.goku_e_commerce.DTOs.LoginDTO;
+import com.challenge.goku_e_commerce.dtos.JwtDTO;
+import com.challenge.goku_e_commerce.dtos.LoginDTO;
 import com.challenge.goku_e_commerce.entities.User;
 import com.challenge.goku_e_commerce.services.TokenService;
 

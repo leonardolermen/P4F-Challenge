@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.challenge.goku_e_commerce.DTOs.UserDTO;
+import com.challenge.goku_e_commerce.dtos.UserDTO;
 import com.challenge.goku_e_commerce.enums.UserRole;
 
 import jakarta.persistence.Entity;

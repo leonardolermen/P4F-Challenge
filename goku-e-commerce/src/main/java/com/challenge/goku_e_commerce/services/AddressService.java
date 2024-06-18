@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.challenge.goku_e_commerce.DTOs.AddressDTO;
+import com.challenge.goku_e_commerce.dtos.AddressDTO;
 import com.challenge.goku_e_commerce.entities.Address;
 import com.challenge.goku_e_commerce.repositories.AddressRepository;
 
@@ -26,7 +26,8 @@ public class AddressService {
 
     public Address createAddress(AddressDTO data){
         Address newAddress = new Address(data);
-        return this.addressRepository.save(newAddress);
+        this.addressRepository.save(newAddress);
+        return newAddress;
     }
 
     @Cacheable(value = "addresses", key = "#cep")
@@ -44,7 +45,8 @@ public class AddressService {
         existingAddress.setState(data.state());
         existingAddress.setCep(data.cep());
 
-        return addressRepository.save(existingAddress);
+        addressRepository.save(existingAddress);
+        return existingAddress;
     }
 
     public void deleteById(String id){
