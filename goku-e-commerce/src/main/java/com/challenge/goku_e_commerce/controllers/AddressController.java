@@ -18,6 +18,7 @@ import com.challenge.goku_e_commerce.dtos.AddressDTO;
 import com.challenge.goku_e_commerce.entities.Address;
 import com.challenge.goku_e_commerce.services.AddressService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityNotFoundException;
 
 @RestController
@@ -26,12 +27,14 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
+    @Operation(summary = "List All Addresses operation")
     @GetMapping
     public ResponseEntity<List<Address>> getAll() {
         List<Address> addresses = this.addressService.findAll();
         return new ResponseEntity<>(addresses, HttpStatus.OK);
     }
 
+    @Operation(summary = "Search Address by Cep operation")
     @GetMapping("/{cep}")
     public ResponseEntity<Address> getByCep(@PathVariable String cep) {
         try {
@@ -41,13 +44,14 @@ public class AddressController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
+    @Operation(summary = "Register Addresses operation")
     @PostMapping
     public ResponseEntity<Address> createAddress(@RequestBody AddressDTO data) {
         Address newAddress = this.addressService.createAddress(data);
         return new ResponseEntity<>(newAddress, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Update Addresses operation")
     @PutMapping("/{addressId}")
     public ResponseEntity<Address> updateAddress(@PathVariable String addressId,@RequestBody AddressDTO data) {
         try {
@@ -58,6 +62,7 @@ public class AddressController {
         }
     }
 
+    @Operation(summary = "Delete Addresses operation")
     @DeleteMapping("/{addressId}")
     public ResponseEntity<String> deleteAddress(@PathVariable String addresId){
         try {

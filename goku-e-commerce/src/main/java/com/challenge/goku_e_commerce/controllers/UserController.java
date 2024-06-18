@@ -20,6 +20,7 @@ import com.challenge.goku_e_commerce.entities.User;
 import com.challenge.goku_e_commerce.exceptions.ResourceNotFoundException;
 import com.challenge.goku_e_commerce.services.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
@@ -29,18 +30,20 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Operation(summary = "List All Users operation")
     @GetMapping
     public ResponseEntity<List<User>> getAll() {
-        List<User> users = this.userService.getAllUsers();
+        List<User> users = this.userService.findAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @Operation(summary = "Register Users operation")
     @PostMapping
     public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO data) {
         User newUser = this.userService.createUser(data);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
-
+    @Operation(summary = "Delete Users operation")
     @DeleteMapping("/{userId}")
     public ResponseEntity<String> delete(@PathVariable String userId) {
         try {
@@ -51,6 +54,7 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Update Users operation")
     @PutMapping("/{userId}")
     public ResponseEntity<String> updateUser(@PathVariable String userId,@Valid @RequestBody UserDTO data) {
         try {
@@ -61,6 +65,7 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Add Addresses to Users operation")
     @PostMapping("/add-address")
     public ResponseEntity<String> addAddress(@RequestBody AddAdressDTO data) {
         try{

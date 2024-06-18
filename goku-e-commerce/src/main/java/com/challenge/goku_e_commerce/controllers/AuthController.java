@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.challenge.goku_e_commerce.dtos.JwtDTO;
 import com.challenge.goku_e_commerce.dtos.LoginDTO;
 import com.challenge.goku_e_commerce.entities.User;
+import com.challenge.goku_e_commerce.services.AuthService;
 import com.challenge.goku_e_commerce.services.TokenService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -28,12 +30,14 @@ public class AuthController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private AuthService authService;
+
+    @Operation(summary = "Login operation")
     @PostMapping("/login")
-    public ResponseEntity signIn(@RequestBody @Valid LoginDTO data) {
+    public ResponseEntity login(@RequestBody @Valid LoginDTO data) {
         try {
-            var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-            var authUser = authenticationManager.authenticate(usernamePassword);
-            var accessToken = tokenService.generateToken((User) authUser.getPrincipal());
+            var accessToken =authService.login(data);
             return ResponseEntity.ok(new JwtDTO(accessToken));
         } catch (AuthenticationException e) {
             return new ResponseEntity<>("email or password incorrect", HttpStatus.UNAUTHORIZED);

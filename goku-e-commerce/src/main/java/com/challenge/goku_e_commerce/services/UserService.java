@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class UserService {
     private AddressService addressService;
 
     @Cacheable(value = "users")
-    public List<User> getAllUsers() {
+    public List<User> findAllUsers() {
         return this.userRepository.findAll();
     }
 
@@ -41,19 +42,22 @@ public class UserService {
         return newUser;
     }
 
+    @CacheEvict(value = "users", key = "#userId")
+
     public void deleteUser(String id) {
         if (!userRepository.existsById(id)) {
             throw new EntityNotFoundException(id);
         }
         this.userRepository.deleteById(id);
     }
-
+    
+    @CacheEvict(value = "users", key = "#userId")
     public void updateUser(String userId, UserDTO data) {
         User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
         existingUser.setUsername(data.username());
-        if(userRepository.findByLogin(data.login()) != null){
+        if(userRepository.findByLogin(data.login()).isPresent()){
             throw new EntityExistsException("Email already exists: " + data.login());
         }
         existingUser.setLogin(data.login());
@@ -62,6 +66,7 @@ public class UserService {
         userRepository.save(existingUser);
     }
 
+    @CacheEvict(value = "users", key = "#userId")
     public String addUserAddress(String userId, String addresCep){
         User existingUser = userRepository.findById(userId)
         .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
@@ -75,7 +80,7 @@ public class UserService {
         userRepository.save(existingUser);
         return "Addres added to User";
     }
-
+    @Cacheable(value = "users", key = "#login" )
     public Optional<User> FindByLogin(String login) {
        return userRepository.findByLogin(login);
     }
