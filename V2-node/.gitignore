@@ -1,0 +1,9 @@
+# Node modules
+node_modules/
+
+# Other files and folders to ignore
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
