@@ -9,6 +9,7 @@ var mongooseConnection = require('./config/mongoose.conect');
 
 //controlers
 var userRouter = require('./controllers/User.controller');
+var addressRouter = require('./controllers/Address.controller');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/api/users', userRouter);
+app.use('/api/address', addressRouter);
 
 
 

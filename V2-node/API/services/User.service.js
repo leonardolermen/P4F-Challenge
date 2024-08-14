@@ -12,7 +12,7 @@ class UserService{
 
 
     async getUsers() {
-        return await user.find().exec();
+        return await User.find().exec();
     }
 
     async getUserById(id) {
