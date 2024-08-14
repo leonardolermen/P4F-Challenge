@@ -5,13 +5,19 @@ const userSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
-  addresses: [Address]  // Certifique-se de que "Address" está correto, com "d" duplo
+  addresses: [Address]  
 });
 
-// Método para adicionar um endereço
+// adiciona um endereço
 userSchema.methods.addAddress = function(newAddress) {
   this.addresses.push(newAddress);
-  return this.save();  // Salva o documento após adicionar o endereço
+  return this.save();  
 };
+
+// remove um endereço
+userSchema.methods.removeAddress = function(addressId) {
+  this.addresses = this.addresses.filter(address => address._id.toString() !== addressId.toString());
+  return this.save();
+}
 
 module.exports = mongoose.model("User", userSchema);

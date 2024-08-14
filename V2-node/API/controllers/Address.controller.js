@@ -4,22 +4,37 @@ const AddressService = require('../services/Address.Service');
 
 const addressService = new AddressService();
 
-router.post('/', async (req,res) => {
+// como não tem numero de residência no endereço não há necessidade de ter um route.update
+
+// Adiciona um endereço a um usuário
+router.post('/', async (req, res) => {
     try {
-        const user = await addressService.createAddress(req.body);
-        res.status(201).send({ message: 'Address added successfully', user});
+        const user = await addressService.addAddress(req.body);
+        res.status(201).send({ message: 'Address added successfully', user });
     } catch (error) {
-        res.status(400).send({ message: 'Error cep or User not found', error: error.message });
+        res.status(400).send({ message: 'Error Addres not added', error: error.message });
     }
 })
 
-router.get('/', async (req,res) => {
+// faz a consulta de um cep na API do ViaCep
+router.get('/', async (req, res) => {
     try {
-        const addresses = await addressService.getAddresses();
-        res.status(200).send(addresses);
+        const address = await addressService.getAddresses(req.body);
+        res.status(200).send(address);
     } catch (error) {
-        
+        res.status(500).send({ message: "Error retrieving Addres", address })
     }
 })
+
+// remove um endereço de um usuário
+router.delete('/', async (req, res) => {
+    try {
+        const user = await addressService.removeAddress(req.body);
+        res.status(200).send({ message: "Address removed sucessfully", user });
+    } catch (error) {
+        res.status(400).send({ message: "Error, Address not removed", error: error.message })
+    }
+})
+
 
 module.exports = router;
