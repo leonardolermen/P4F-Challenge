@@ -6,10 +6,13 @@ var logger = require('morgan');
 
 var mongooseConnection = require('./config/mongoose.conect');
 
+// .end
+require('dotenv').config();
 
 //controlers
 var userRouter = require('./controllers/User.controller');
 var addressRouter = require('./controllers/Address.controller');
+var authRouter = require('./controllers/Auth.controller');
 
 var app = express();
 
@@ -26,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/users', userRouter);
 app.use('/api/address', addressRouter);
+app.use('/api/auth/login', authRouter);
 
 
 

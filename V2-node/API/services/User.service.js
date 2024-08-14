@@ -22,6 +22,10 @@ class UserService {
     return await User.findById(id).exec();
   }
 
+  async getUserByEmail(email) {
+    return await User.findOne({ email }).exec();
+  }
+  
   async updateUser(id, data) {
     return await User.findByIdAndUpdate(id, data, { new: true }).exec();
   }
