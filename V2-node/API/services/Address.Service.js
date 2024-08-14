@@ -71,7 +71,8 @@ class AddressService {
         let cachedData = addressCache.get(cep);
 
         if(cachedData){
-            return cacheData;
+            const address = new Address(cachedData);
+            return address;
         }
 
         const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
@@ -85,7 +86,9 @@ class AddressService {
             };
             addressCache.set(cep, data);
 
-            return data;
+            const address = new Address(data);
+
+            return address;
         } else {
             throw new Error('Invalid CEP');
         }

@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
         const address = await addressService.getAddresses(req.body);
         res.status(200).send(address);
     } catch (error) {
-        res.status(500).send({ message: "Error retrieving Addres", address })
+        res.status(500).send({ message: "Error retrieving Addres", error: error.message })
     }
 })
 
