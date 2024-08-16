@@ -1,51 +1,83 @@
 const axios = require('axios');
-const { addressService } = require('../../services/Address.Service');
+const AddressService  = require('../../services/Address.Service');
 const Address = require('../../models/Address.model');
-const addressCache = require('node-cache');
+const UserService = require('../../services/User.service');
+const NodeCache = require('node-cache');
 
 jest.mock('axios');
+jest.mock('../../models/Address.model');
+jest.mock('../../services/User.service');
+jest.mock('node-cache');
 
-jest.mock()
+describe('AddressService - getAddresses', () => {
+  let addressService;
+  let mockCache;
+  let mockUserService;
 
-describe('getAddresses', () => {
-  const cep = '12345678';
-  const cachedData = {
-    zip: '12345678',
-    street: 'Rua Exemplo',
-    city: 'Cidade Exemplo',
-    state: 'UF'
-  };
+  beforeEach(() => {
+    mockCache = new NodeCache();
+    mockUserService = new UserService();
+    addressService = new AddressService(mockUserService, mockCache);
+  });
 
+  it('should return cached address data if available', async () => {
+    const req = { cep: "06454080" };
+    const cachedData = {
+      zip: "06454080",
+      street: "Rua Teste",
+      city: "Cidade Teste",
+      state: "TS"
+    };
 
+    // Simula o comportamento do cache
+    mockCache.get.mockReturnValue(cachedData);
 
-  it('deve fazer uma requisição para a API Via CEP e retornar o endereço', async () => {
-    const response = {
+    // Chama o método que queremos testar
+    const result = await addressService.getAddresses(req);
+
+    // Verifica se os dados retornados são os esperados
+    expect(result).toEqual(new Address(cachedData));
+    expect(mockCache.get).toHaveBeenCalledWith(req.cep);
+  });
+
+  it('should fetch and cache address data if not cached', async () => {
+    const req = { cep: "06454080" };
+    const apiResponse = {
       data: {
-        cep: '06454080',
-        logradouro: 'Rua Exemplo',
-        localidade: 'Cidade Exemplo',
-        uf: 'UF'
+        cep: "06454080",
+        logradouro: "Rua Teste",
+        localidade: "Cidade Teste",
+        uf: "TS"
       }
     };
-    axios.get.mockResolvedValue(response);
-    const req = { cep };
-    const address = await addressService.getAddresses(req.cep);
-    expect(address).toBeInstanceOf(Address);
-    expect(address.zip).toBe(response.data.cep);
-    expect(address.street).toBe(response.data.logradouro);
-    expect(address.city).toBe(response.data.localidade);
-    expect(address.state).toBe(response.data.uf);
+
+    const expectedData = {
+      zip: apiResponse.data.cep,
+      street: apiResponse.data.logradouro,
+      city: apiResponse.data.localidade,
+      state: apiResponse.data.uf
+    };
+
+    // Simula o cache vazio e a resposta da API
+    mockCache.get.mockReturnValue(undefined);
+    axios.get.mockResolvedValue(apiResponse);
+
+    // Chama o método que queremos testar
+    const result = await addressService.getAddresses(req);
+
+    // Verifica se os dados retornados e cacheados são os esperados
+    expect(result).toEqual(new Address(expectedData));
+    expect(mockCache.get).toHaveBeenCalledWith(req.cep);
+    expect(axios.get).toHaveBeenCalledWith(`${process.env.VIA_CEP_API}${req.cep}/json/`);
+    expect(mockCache.set).toHaveBeenCalledWith(req.cep, expectedData);
   });
 
-  it('deve lançar um erro se a requisição para a API Via CEP falhar', async () => {
-    axios.get.mockRejectedValue(new Error('Erro na requisição'));
-    const req = { cep };
-    await expect(getAddresses(req)).rejects.toThrowError('Erro na requisição');
-  });
+  it('should throw an error if CEP is invalid', async () => {
+    const req = { cep: "00000000" };
 
-  it('deve lançar um erro se o CEP for inválido', async () => {
+    // Simula uma resposta da API com erro
     axios.get.mockResolvedValue({ data: null });
-    const req = { cep };
-    await expect(getAddresses(req)).rejects.toThrowError('Invalid CEP');
+
+    await expect(addressService.getAddresses(req)).rejects.toThrow('Invalid CEP');
   });
 });

@@ -69,30 +69,32 @@ class AddressService {
 
     // Faz a requisição das informaçoes de um cep 
     async getAddresses(req) {
-        const cep = req.cep;
-        let cachedData = addressCache.get(cep);
+        try {
+            const cep = req.cep;
+            let cachedData = addressCache.get(cep);
 
-        if (cachedData) {
-            const address = new Address(cachedData);
-            return address;
-        }
+            if (cachedData) {
+                const address = new Address(cachedData);
+                return address;
+            }
 
-        const response = await axios.get(`${process.env.VIA_CEP_API}${cep}/json/`);
+            const response = await axios.get(`${process.env.VIA_CEP_API}${cep}/json/`);
 
-        if (response.data) {
-            const data = {
-                zip: response.data.cep,
-                street: response.data.logradouro,
-                city: response.data.localidade,
-                state: response.data.uf
-            };
+            if (response.data) {
+                const data = {
+                    zip: response.data.cep,
+                    street: response.data.logradouro,
+                    city: response.data.localidade,
+                    state: response.data.uf
+                };
 
-            addressCache.set(cep, data);
+                addressCache.set(cep, data);
 
-            const address = new Address(data);
+                const address = new Address(data);
 
-            return address;
-        } else {
+                return address;
+            }
+        } catch(error) {
             throw Error('Invalid CEP');
         }
     }

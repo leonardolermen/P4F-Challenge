@@ -27,7 +27,7 @@ router.get('/', verifyToken, async (req, res) => {
         const address = await addressService.getAddresses(req.body);
         res.status(200).send(address);
     } catch (error) {
-        res.status(500).send({ message: "Error retrieving Addres", error: error.message })
+        res.status(400).send({ message: "Address not found", error: error.message })
     }
 });
 
