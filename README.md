@@ -58,6 +58,12 @@ Integrar uma solução de segurança para prevenir acesso não autorizado a info
 Tenha o Docker instalado
 
 ```bash
+  api node :
+  cd V2-node/API
+  docker-compose build
+  docker-compose up
+
+  api java :
   cd goku-e-commerce
   docker-compose build
   docker-compose up
