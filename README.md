@@ -30,7 +30,18 @@ Integrar uma solução de segurança para prevenir acesso não autorizado a info
 
 ## Stack utilizada
 
+## API V2 
+**Back-end:** Node.js , Express.js
 
+**Database:** MongoDB
+
+**Test:** 
+
+**Security:** JWT token
+
+**Docker**
+
+## API V1
 **Back-end:** java 17, Spring Framework, Maven
 
 **Database:** MongoDB

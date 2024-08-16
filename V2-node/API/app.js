@@ -3,7 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var swaggerUi = require('swagger-ui-express');
+var swaggerDocument = require('./swagger-output.json');
 var mongooseConnection = require('./config/mongoose.conect');
 
 // .end
@@ -13,6 +14,10 @@ require('dotenv').config();
 var userRouter = require('./controllers/User.controller');
 var addressRouter = require('./controllers/Address.controller');
 var authRouter = require('./controllers/Auth.controller');
+
+// swagger
+
+
 
 var app = express();
 
@@ -31,6 +36,11 @@ app.use('/api/users', userRouter);
 app.use('/api/address', addressRouter);
 app.use('/api/auth/login', authRouter);
 
+
+app.use(express.json());
+
+// Middleware para servir a documentação Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 // connect mongo

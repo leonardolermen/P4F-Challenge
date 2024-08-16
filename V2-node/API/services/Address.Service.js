@@ -3,6 +3,8 @@ const axios = require('axios');
 const UserService = require('./User.service');
 const cache = require('node-cache');
 const userService = new UserService();
+require('dotenv').config();
+
 
 // Configurando o cache
 const addressCache = new cache({ stdTTL: 600, checkperiod: 120 });
@@ -22,7 +24,7 @@ class AddressService {
                 const user = await userService.getUserById(req.id);
 
                 if (!user) {
-                    throw new Error('User not found');
+                    throw Error('User not found');
                 }
 
                 const address = new Address(cachedData);
@@ -34,11 +36,11 @@ class AddressService {
             const user = await userService.getUserById(req.id);
 
             if (!user) {
-                throw new Error('User not found');
+                throw Error('User not found');
             }
 
             // Se não estiver no cache, faz a requisição na API
-            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            const response = await axios.get(`${process.env.VIA_CEP_API}${cep}/json/`);
 
             if (response.data) {
                 const data = {
@@ -56,7 +58,7 @@ class AddressService {
 
                 return user;
             } else {
-                throw new Error('Invalid CEP');
+                throw Error('Invalid CEP');
             }
 
         } catch (error) {
@@ -70,12 +72,12 @@ class AddressService {
         const cep = req.cep;
         let cachedData = addressCache.get(cep);
 
-        if(cachedData){
+        if (cachedData) {
             const address = new Address(cachedData);
             return address;
         }
 
-        const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+        const response = await axios.get(`${process.env.VIA_CEP_API}${cep}/json/`);
 
         if (response.data) {
             const data = {
@@ -84,13 +86,14 @@ class AddressService {
                 city: response.data.localidade,
                 state: response.data.uf
             };
+
             addressCache.set(cep, data);
 
             const address = new Address(data);
 
             return address;
         } else {
-            throw new Error('Invalid CEP');
+            throw Error('Invalid CEP');
         }
     }
 
@@ -100,8 +103,7 @@ class AddressService {
             const user = await userService.getUserById(req.userId);
             await user.removeAddress(req.addresId);
         } catch (error) {
-            console.error(error);
-            return error;
+            throw Error('user or address not found');
         }
     }
 }

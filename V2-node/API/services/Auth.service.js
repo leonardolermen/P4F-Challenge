@@ -24,7 +24,7 @@ class AuthService {
       return token;
     } catch (error) {
       console.error(error);
-      return res.status(401).json({ message: 'Invalid credentials' });
+      throw new Error('Invalid credentials');
     }
   }
 }

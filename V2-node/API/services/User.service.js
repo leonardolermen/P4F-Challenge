@@ -6,11 +6,19 @@ class UserService {
 
   // cria um novo user
   async createUser(data) {
+    const existingUser = await this.getUserByEmail(data.email);
+    if (existingUser) {
+      throw new Error('Email already used');
+    }
+
     const hashedPassword = await bcrypt.hash(data.password, 10);
-    const user = new User({ ...data, password: hashedPassword, addresses: [] });
-    await user.save();
-    return user;
+
+    const newUser = new User({ ...data, password: hashedPassword, addresses: [] });
+    await newUser.save();
+
+    return newUser;
   }
+
 
   // lista todos os users
   async getUsers() {
@@ -25,7 +33,7 @@ class UserService {
   async getUserByEmail(email) {
     return await User.findOne({ email }).exec();
   }
-  
+
   async updateUser(id, data) {
     return await User.findByIdAndUpdate(id, data, { new: true }).exec();
   }
