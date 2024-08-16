@@ -22,9 +22,9 @@ router.post('/', verifyToken, async (req, res) => {
 });
 
 // faz a consulta de um cep na API do ViaCep
-router.get('/', verifyToken, async (req, res) => {
+router.get('/:cep', verifyToken, async (req, res) => {
     try {
-        const address = await addressService.getAddresses(req.body);
+        const address = await addressService.getAddresses(req.params.cep);
         res.status(200).send(address);
     } catch (error) {
         res.status(400).send({ message: "Address not found", error: error.message })

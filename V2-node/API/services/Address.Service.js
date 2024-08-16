@@ -68,9 +68,8 @@ class AddressService {
     }
 
     // Faz a requisição das informaçoes de um cep 
-    async getAddresses(req) {
+    async getAddresses(cep) {
         try {
-            const cep = req.cep;
             let cachedData = addressCache.get(cep);
 
             if (cachedData) {
@@ -103,7 +102,7 @@ class AddressService {
     async removeAddress(req) {
         try {
             const user = await userService.getUserById(req.userId);
-            await user.removeAddress(req.addresId);
+            await user.removeAddress(req.addressId);
         } catch (error) {
             throw Error('user or address not found');
         }

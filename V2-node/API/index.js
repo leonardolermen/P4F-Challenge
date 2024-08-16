@@ -18,4 +18,6 @@ app.listen(3000, () => {
 });
 
 /* Endpoints */
-require('./controllers')(app);
+require('./controllers/Address.controller')(app);
+require('./controllers/Auth.controller')(app);
+require('./controllers/User.controller')(app);

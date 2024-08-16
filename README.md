@@ -35,7 +35,7 @@ Integrar uma solução de segurança para prevenir acesso não autorizado a info
 
 **Database:** MongoDB
 
-**Test:** 
+**Test:** Jest
 
 **Security:** JWT token
 
@@ -64,21 +64,8 @@ Tenha o Docker instalado
 ```
 Após isso entre na documentação abaixo e teste a API
 ## Documentação da API
+API em Node: http://localhost:3000/api-docs/
 
-http://localhost:8080/swagger-ui/index.html#/
+API em Java: http://localhost:8080/swagger-ui/index.html#/
 
-## Uso/Exemplos
-Utilize como exemplo para teste
-```JSON
-{
- "username": "user",
- "login": "user@example.com",
- "password": "password",
-}
-
-{
-"cep": "06454080"
-}
-```
-Utilize um CEP com essa formatação para cadastro e consulta.
 

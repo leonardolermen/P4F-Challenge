@@ -16,7 +16,9 @@
       "post": {
         "summary": "Create a new user",
         "description": "Creates a new user with the given details.",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "requestBody": {
           "description": "User details for registration",
           "required": true,
@@ -38,7 +40,10 @@
                     "example": "User"
                   }
                 },
-                "required": ["email", "password"]
+                "required": [
+                  "email",
+                  "password"
+                ]
               }
             }
           }
@@ -98,7 +103,9 @@
       "get": {
         "summary": "List all users",
         "description": "Retrieves a list of all registered users.",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "responses": {
           "200": {
             "description": "List of users retrieved successfully",
@@ -153,13 +160,167 @@
             }
           }
         }
+      },
+      "put": {
+        "summary": "Update an existing user",
+        "description": "Updates the details of an existing user by ID.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the user to update",
+            "schema": {
+              "type": "string",
+              "example": "66be623653908d88151ee29b"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "User details to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "newemail@example.com"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "New Name"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "newpassword123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User updated"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "email": {
+                          "type": "string",
+                          "example": "newemail@example.com"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "New Name"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Failed to update user"
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a user",
+        "description": "Deletes an existing user by ID.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the user to delete",
+            "schema": {
+              "type": "string",
+              "example": "66be623653908d88151ee29b"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User not found"
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/address": {
       "post": {
         "summary": "Add an address to a user",
         "description": "Adds a new address to a user based on the provided data.",
-        "tags": ["Addresses - Url autenticada, não consegui fazer o token funcionar pelo swagger, utilize no postman va em headers -> key = Authorization , value - token obtido no login"],
+        "tags": [
+          "Addresses "
+        ],
         "security": [
           {
             "bearerAuth": []
@@ -182,7 +343,10 @@
                     "example": "userId123"
                   }
                 },
-                "required": ["cep", "id"]
+                "required": [
+                  "cep",
+                  "id"
+                ]
               }
             }
           }
@@ -259,134 +423,42 @@
           }
         }
       },
-      "get": {
-        "summary": "Get address information by CEP",
-        "description": "Retrieves address information based on the provided CEP.",
-        "tags": ["Addresses - Url autenticada, não consegui fazer o token funcionar pelo swagger, utilize no postman va em headers -> key = Authorization , value - token obtido no login"],
+      "delete": {
+        "summary": "Remove an address from a user",
+        "description": "Removes an address from a user based on the provided IDs.",
+        "tags": [
+          "Addresses "
+        ],
         "security": [
           {
             "bearerAuth": []
           }
         ],
         "requestBody": {
-          "description": "CEP to retrieve address information",
+          "description": "User and address IDs to remove the address",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "cep": {
+                  "userId": {
                     "type": "string",
-                    "example": "06454080"
+                    "example": "userId123"
+                  },
+                  "addressId": {
+                    "type": "string",
+                    "example": "addressId123"
                   }
                 },
-                "required": ["cep"]
+                "required": [
+                  "userId",
+                  "addressId"
+                ]
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Address information retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Address information retrieved"
-                    },
-                    "address": {
-                      "type": "object",
-                      "properties": {
-                        "zip": {
-                          "type": "string",
-                          "example": "06454080"
-                        },
-                        "street": {
-                          "type": "string",
-                          "example": "Alameda Itapecuru"
-                        },
-                        "city": {
-                          "type": "string",
-                          "example": "Barueri"
-                        },
-                        "state": {
-                          "type": "string",
-                          "example": "SP"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized access",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Unauthorized"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid CEP",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Invalid CEP"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "Remove an address from a user",
-        "description": "Removes an address from a user based on the provided ID.",
-        "tags": ["Addresses - Url autenticada, não consegui fazer o token funcionar pelo swagger, utilize no postman va em headers -> key = Authorization , value - token obtido no login"],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "userId123"
-            }
-          },
-          {
-            "name": "addressId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "addressId123"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "Address removed successfully",
@@ -398,22 +470,6 @@
                     "message": {
                       "type": "string",
                       "example": "Address removed"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized access",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Unauthorized"
                     }
                   }
                 }
@@ -435,6 +491,94 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/address/{cep}": {
+      "get": {
+        "summary": "Get address information by CEP",
+        "description": "Retrieves address information based on the provided CEP.",
+        "tags": [
+          "Addresses "
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cep",
+            "in": "path",
+            "required": true,
+            "description": "CEP to retrieve address information",
+            "schema": {
+              "type": "string",
+              "example": "06454080"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Address information retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "zip": {
+                      "type": "string",
+                      "example": "06454080"
+                    },
+                    "street": {
+                      "type": "string",
+                      "example": "Rua Teste"
+                    },
+                    "city": {
+                      "type": "string",
+                      "example": "Cidade Teste"
+                    },
+                    "state": {
+                      "type": "string",
+                      "example": "TS"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Address not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Address not found"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -443,7 +587,9 @@
       "post": {
         "summary": "Authenticate user",
         "description": "Logs in a user and returns a JWT token if credentials are valid.",
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "requestBody": {
           "description": "User credentials for login",
           "required": true,
@@ -461,7 +607,10 @@
                     "example": "password123"
                   }
                 },
-                "required": ["email", "password"]
+                "required": [
+                  "email",
+                  "password"
+                ]
               }
             }
           }
